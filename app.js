@@ -35,8 +35,8 @@ const app = express()
 // para funcionar
 app.use((request, response, next) => {
     response.header('Acess-Control-Allow-Origin', '*')
-    response.header('Acess-Control-Allow-Methods', 'GET')
-    app.use(cors)
+    response.header('Acess-Control-Allow-Methods', '*')
+    app.use(cors())
     next()
 })
 
@@ -54,7 +54,7 @@ app.get('/v1/lista-de-tarefas/usuarios/', cors(), async(request, response, next)
 
 })
 
-app.get('/v1/lista-de-tarefas/usuarios/:email', cors(), async(request, response, next) => {
+app.get('/v1/lista-de-tarefas/usuarios/id/:email', cors(), async(request, response, next) => {
 
     let email = request.params.email
 
@@ -85,7 +85,7 @@ app.put('/v1/lista-de-tarefas/usuario/atualizar', cors(), bodyParserJSON, async(
     response.json(dadosUsuario)
 })
 
-app.post('/v1/lista-de-tarefas/criar-usuario', cors(), bodyParserJSON, async(request, response, next) => {
+app.post('/v1/lista-de-tarefas/criar-usuario/', cors(), bodyParserJSON, async(request, response, next) => {
 
     let usuario = request.body
     let dadosUsuario = await controllerUsuarios.setNewUser(usuario)

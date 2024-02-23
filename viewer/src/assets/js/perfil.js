@@ -1,7 +1,6 @@
 'use strict'
 
-// import { pegarUsuario } from './funcoes-api.js'
-// import { atualizarUsuario } from './funcoes-api.js'
+import { pegarUsuario, atualizarUsuario } from './funcoes-api.js'
 
 const olho = document.getElementById('olho')
 const inputSenha = document.getElementById('password')
@@ -12,14 +11,8 @@ const imagemLabel = document.getElementById('imagem')
 const botaoVoltar = document.getElementById('voltar')
 const botaoSair = document.getElementById('sair')
 const botaoSalvar = document.getElementById('salvar')
-const id = localStorage.getItem('usuarioId')
+const id = localStorage.getItem('usuarioID')
 let boolean = false 
-
-let usuario = {
-    nome: 'Ryan Alves',
-    email: 'ryan@email.com',
-    senha: 123
-}
 
 olho.addEventListener('click', () => {
 
@@ -36,27 +29,6 @@ olho.addEventListener('click', () => {
 
 
 })
-
-// const encurtarLink = async(linkParametro) => {
-
-//     let apiKey = '9OZYpSzl5SrA2AKZdutWGOV9RuNLlJQPzT2OVhp1KWmJfunnt5QTj3kl5WkV'
-
-//     let link = linkParametro
-//     const url = `https://api.tinyurl.com/create?api_token=${apiKey}`
-//     const response = await fetch(url, {
-//         method: 'POST',
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ 
-//             url: `${linkParametro}`,
-//             domain: "tinyurl.com"
-//         })
-//       })
-
-//     const linkEncurtado = await response.json()
-
-//     console.log(linkEncurtado)
-
-// }
 
 inputFoto.addEventListener('change', async() => {
 
@@ -103,7 +75,7 @@ botaoSair.addEventListener('click', () => {
 
 })
 
-botaoSalvar.addEventListener('click', () => {
+botaoSalvar.addEventListener('click', async() => {
 
     let novoUsuario = {
         id: id,
@@ -112,15 +84,18 @@ botaoSalvar.addEventListener('click', () => {
         senha: inputSenha.value
     }
 
-    // atualizarUsuario(novoUsuario)
+    atualizarUsuario(novoUsuario)
+   
+    let usuario = await pegarUsuario(id)
+    montarPerfil(usuario.usuario[0])
 
 })
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async() => {
 
-    //let usuario = pegarUsuario(id)
+    let usuario = await pegarUsuario(id)
 
-    montarPerfil(usuario)
+    montarPerfil(usuario.usuario[0])
 
     if(localStorage.getItem('imagem')){
         

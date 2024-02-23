@@ -25,27 +25,27 @@ olho.addEventListener('click', () => {
 
 const validarLogin = async() => {
  
-    const email = document.getElementById('email').value
+    const email = document.getElementById('email').value.toUpperCase()
     const senha = document.getElementById('password').value
+    let validacaoEmail, validacaoSenha
 
     const usuarios = await listarUsuarios()
 
     if(email != '' && senha != ''){
-        
-        usuarios.usuarios.forEach(usuario => {
-    
-            if(email == usuario.email && senha == usuario.senha){
 
-                localStorage.setItem('usuarioId', usuario.id)   
-                window.location.href = './assets/pages/tarefas.html'
-    
-            } else {
-    
-                alert('Email e/ou senha incorretos')
-    
+        usuarios.usuarios.forEach(usuario => {
+            if(email == usuario.email.toUpperCase() && senha == usuario.senha){
+                validacaoEmail = usuario.email.toUpperCase()
+                validacaoSenha = usuario.senha
+                localStorage.setItem('usuarioID', usuario.id)   
             }
-    
         })
+    
+        if(email == validacaoEmail && senha == validacaoSenha){
+            localStorage.setItem('login', 'true')
+            window.location.href = './assets/pages/tarefas.html'
+        } else
+        alert('Email e/ou senha incorreto(s)')
 
     }
 

@@ -40,22 +40,22 @@ const getListarUsuarios = async() => {
 
 const getUserIdByEmail = async(email) => {
 
-    let userID = email
+    let usuarioEmail = email
     let usuariosJSON = {}
     
-    if (userID == '' || userID == undefined || isNan(userID)){
+    if (usuarioEmail == '' || usuarioEmail == undefined){
 
         return message.ERROR_INVALID_EMAIL
 
     } else {
 
-        let dadosUsuarios = await usuariosDAO.selectUserIDByEmail()
+        let dadosUsuarios = await usuariosDAO.selectUserIDByEmail(usuarioEmail)
     
         if (dadosUsuarios){
     
             if(dadosUsuarios.length > 0){
     
-                usuariosJSON.usuarios = dadosUsuarios
+                usuariosJSON.id = dadosUsuarios[0].id
                 usuariosJSON.status_code = 200
     
                 return usuariosJSON
@@ -79,19 +79,19 @@ const getUserByID = async(id) => {
     let userID = id
     let usuariosJSON = {}
     
-    if (userID == '' || userID == undefined || isNan(userID)){
+    if (userID == '' || userID == undefined || isNaN(userID)){
 
         return message.ERROR_INVALID_ID
 
     } else {
 
-        let dadosUsuarios = await usuariosDAO.selectUserByID()
-    
+        let dadosUsuarios = await usuariosDAO.selectUserByID(userID)
+
         if (dadosUsuarios){
     
             if(dadosUsuarios.length > 0){
     
-                usuariosJSON.usuarios = dadosUsuarios
+                usuariosJSON.usuario = dadosUsuarios
                 usuariosJSON.status_code = 200
     
                 return usuariosJSON

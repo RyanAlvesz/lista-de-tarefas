@@ -101,3 +101,11 @@ const insertUser = async(usuario) => {
     }
 
 }
+
+module.exports={
+    selectAllUsers,
+    selectUserByID,
+    selectUserIDByEmail,
+    updateUser,
+    insertUser
+}

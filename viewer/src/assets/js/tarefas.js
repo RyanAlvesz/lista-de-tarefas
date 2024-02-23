@@ -1,95 +1,12 @@
 'use strict'
 
-// import { tarefasUsuario } from './funcoes-api.js'
-// import { tarefasUsuarioNaoConcluidas } from './funcoes-api.js'
-// import { concluirTarefa } from './funcoes-api.js'
-// import { tarefaNaoConcluida } from './funcoes-api.js'
-// import { removerTarefa } from './funcoes-api.js'
-// import { selecionarTarefa } from './funcoes-api.js'
-// import { criarTarefa } from './funcoes-api.js'
-// import { atualizarTarefa } from './funcoes-api.js'
+import {tarefasUsuario, tarefasUsuarioNaoConcluidas, selecionarTarefa, concluirTarefa, tarefaNaoConcluida, atualizarTarefa, removerTarefa, criarTarefa} from './funcoes-api.js'
 
 const containerTarefas = document.getElementById('container-tarefas')
 const botaoConcluido = document.getElementById('concluido')
 const audio = document.getElementById('audio')
+const idUsuario = localStorage.getItem('usuarioID')
 let concluido
-
-let tarefas = [
-
-    {
-        id: 1,
-        titulo: 'Fazer Compras',
-        descricao: 'Ir no mercado e comprar sorvete',
-        concluido: false
-    },
-    {
-        id: 2,
-        titulo: 'Fazer trabalhos da escola',
-        descricao: 'Redação de português e Slides de história',
-        concluido: false
-    },
-    {
-        id: 3,
-        titulo: 'Lavar a lousa',
-        descricao: 'Limpar as panelas e secar os pratos',
-        concluido: true
-    },
-    {
-        id: 4,
-        titulo: 'Jogar com o meu irmão',
-        descricao: 'Lembrar de jogar xadrez na quinta',
-        concluido: true
-    },
-    {
-        id: 5,
-        titulo: 'IMPORTANTE',
-        descricao: 'Fazer inscrição do Enem',
-        concluido: false
-    },
-    {
-        id: 6,
-        titulo: 'Fazer as malas',
-        descricao: 'Não esquecer de levar meias',
-        concluido: false
-    }
-
-]
-
-let tarefasNaoConcluidas = [
-
-    {
-        id: 1,
-        titulo: 'Fazer Compras',
-        descricao: 'Ir no mercado e comprar sorvete',
-        concluido: false
-    },
-    {
-        id: 2,
-        titulo: 'Fazer trabalhos da escola',
-        descricao: 'Redação de português e Slides de história',
-        concluido: false
-    },
-    {
-        id: 5,
-        titulo: 'IMPORTANTE',
-        descricao: 'Fazer inscrição do Enem',
-        concluido: false
-    },
-    {
-        id: 6,
-        titulo: 'Fazer as malas',
-        descricao: 'Não esquecer de levar meias',
-        concluido: false
-    }
-
-]
-
-let tarefa = {
-    id: 1,
-    titulo: 'Fazer Compras',
-    descricao: 'Ir no mercado e comprar sorvete',
-    concluido: false
-}
 
 const resetarContainerTarefas = () => {
 
@@ -112,8 +29,8 @@ const resetarContainerTarefas = () => {
 
 const criarFormularioMontarTarefa = () => {
 
-    let criarTarefa = document.createElement('form')
-    criarTarefa.classList.add('h-2/4', 'w-2/4', 'rounded-md', 'bg-azulclaro', 'm-auto', 'inset-0', 'flex', 'flex-col', 'px-5', 'py-1', 'max-md:w-full', 'max-md:h-[100vh]', 'fixed', 'max-md:rounded-none', 'z-20', 'fundo-tarefa')
+    let criarTarefaForm = document.createElement('form')
+    criarTarefaForm.classList.add('h-2/4', 'w-2/4', 'rounded-md', 'bg-azulclaro', 'm-auto', 'inset-0', 'flex', 'flex-col', 'px-5', 'py-1', 'max-md:w-full', 'max-md:h-[100vh]', 'fixed', 'max-md:rounded-none', 'z-20', 'fundo-tarefa')
 
     let containerSuperior = document.createElement('div')
     containerSuperior.classList.add('h-1/5', 'max-md:h-[18vh]', 'w-full', 'flex', 'items-center', 'justify-center', 'relative', 'Formulario')
@@ -144,24 +61,34 @@ const criarFormularioMontarTarefa = () => {
 
     let botaoSalvar = document.createElement('button')
     botaoSalvar.classList.add('h-full', 'Formulario')
-    botaoSalvar.addEventListener('click', () => {
+    botaoSalvar.setAttribute('type', 'button')
+    botaoSalvar.addEventListener('click', async () => {
 
-        let tituloValue
-
-        if (titulo.value == '') 
-            tituloValue = `Tarefa sem título`
-        else 
-            tituloValue = titulo.value
-
-        let tarefa = {
-
-            titulo: tituloValue,
-            descricao: descricao.value,
-            concluido: false
-
+        if(descricao.value != ''){
+            
+            let tituloValue
+    
+            if (titulo.value == '') 
+                tituloValue = `Tarefa sem título`
+            else 
+                tituloValue = titulo.value
+    
+            let tarefa = {
+    
+                idUsuario: idUsuario,
+                titulo: tituloValue,
+                descricao: descricao.value,
+    
+            }
+    
+            await criarTarefa(tarefa)
+        
         }
 
-        //criarTarefa(tarefa)
+        containerTarefas.removeChild(criarTarefaForm)
+        let botaoAdicionarTarefa = containerTarefas.children[0]
+        botaoAdicionarTarefa.classList.remove('pointer-events-none')
+        montarTarefas()
 
     })
 
@@ -170,13 +97,13 @@ const criarFormularioMontarTarefa = () => {
     imagemSalvar.alt = 'Salvar'
     imagemSalvar.classList.add('h-3/5', 'Formulario')
 
-    criarTarefa.replaceChildren(containerSuperior, descricao, divBotao)
+    criarTarefaForm.replaceChildren(containerSuperior, descricao, divBotao)
     containerSuperior.replaceChildren(titulo, botaoFechar)
     botaoFechar.appendChild(imagemFechar)
     divBotao.appendChild(botaoSalvar)
     botaoSalvar.appendChild(imagemSalvar)
 
-    return criarTarefa
+    return criarTarefaForm
 
 }
 
@@ -217,7 +144,7 @@ const criarFormularioMontarTarefaPreenchido = (tarefa) => {
     let botaoSalvar = document.createElement('button')
     botaoSalvar.classList.add('h-full', 'Formulario')
     botaoSalvar.setAttribute('type', 'button')
-    botaoSalvar.addEventListener('click', () => {
+    botaoSalvar.addEventListener('click', async() => {
 
         let tituloValue
 
@@ -235,7 +162,11 @@ const criarFormularioMontarTarefaPreenchido = (tarefa) => {
 
         }
         
-        //atualizarTarefa(tarefaAtualizada)
+        containerTarefas.removeChild(criarTarefa)
+        let botaoAdicionarTarefa = containerTarefas.children[0]
+        botaoAdicionarTarefa.classList.remove('pointer-events-none')
+        await atualizarTarefa(tarefaAtualizada, idUsuario)
+        montarTarefas()
 
     })
 
@@ -337,7 +268,7 @@ const criarTarefas = (arrayTarefas) => {
                 descricaoTarefa.classList.add('line-through')
                 divTarefa.classList.add('bg-azulclaro/60')
 
-                //concluirTarefa(tarefa.id)
+                concluirTarefa(tarefa.id, idUsuario)
 
             } else {
 
@@ -345,15 +276,15 @@ const criarTarefas = (arrayTarefas) => {
                 descricaoTarefa.classList.remove('line-through')
                 divTarefa.classList.remove('bg-azulclaro/60')
 
-                //tarefaNaoConcluida(tarefa.id)
+                tarefaNaoConcluida(tarefa.id, idUsuario)
 
             }
 
         })
 
-        botaoExcluir.addEventListener('click', () => {
+        botaoExcluir.addEventListener('click', async() => {
 
-            //removerTarefa(tarefa.id)  
+            await removerTarefa(tarefa.id, idUsuario)  
             montarTarefas()
 
         })
@@ -380,9 +311,9 @@ const criarTarefas = (arrayTarefas) => {
 
 }
 
-const montarFormularioPreenchido = (id) => {
+const montarFormularioPreenchido = async(idTarefa) => {
 
-    // let tarefa = selecionarTarefa(id)
+    let tarefa = await selecionarTarefa(idTarefa, idUsuario)
 
     let botaoAdicionarTarefa = containerTarefas.children[0]
 
@@ -390,7 +321,7 @@ const montarFormularioPreenchido = (id) => {
         botaoAdicionarTarefa.classList.add('pointer-events-none')
     }
 
-    let formularioTarefa = criarFormularioMontarTarefaPreenchido(tarefa)
+    let formularioTarefa = criarFormularioMontarTarefaPreenchido(tarefa.tarefa[0])
 
     containerTarefas.insertAdjacentElement('beforeend', formularioTarefa)
 
@@ -441,11 +372,10 @@ const montarFormulario = () => {
 
 }
 
-const montarTarefas = () => {
+const montarTarefas = async() => {
 
-    //let id = localStorage.getItem('usuarioId')
-    //let arrayTarefas = tarefasUsuario(id)
-    //let arrayTarefasNaoConcluidas = tarefasUsuarioNaoConcluidas(id)
+    let arrayTarefas = await tarefasUsuario(idUsuario)
+    let arrayTarefasNaoConcluidas = await tarefasUsuarioNaoConcluidas(idUsuario)
 
     resetarContainerTarefas()
 
@@ -453,16 +383,17 @@ const montarTarefas = () => {
 
         concluido = localStorage.getItem('concluido')
 
-        if (concluido == 'true') {
+        if (concluido == 'true' ) {
 
             botaoConcluido.checked = true
-            criarTarefas(tarefasNaoConcluidas)
-            //criarTarefas(arrayTarefasNaoConcluidas)
+            
+            if(arrayTarefasNaoConcluidas.status != false)
+                criarTarefas(arrayTarefasNaoConcluidas.tarefas)
 
         } else {
 
-            criarTarefas(tarefas)
-            //criarTarefas(arrayTarefas)
+            if(arrayTarefas.status != false)
+                criarTarefas(arrayTarefas.tarefas)
 
         }
 
@@ -470,8 +401,11 @@ const montarTarefas = () => {
 
         concluido = false
         localStorage.setItem('concluido', false)
-        resetarContainerTarefas()
-        criarTarefas(tarefas)
+
+        if(arrayTarefas.status != false){
+            resetarContainerTarefas()
+            criarTarefas(tarefas)
+        }
 
     }
 
@@ -490,9 +424,7 @@ botaoConcluido.addEventListener('click', (e) => {
 })
 
 window.onload = () => {
-
     montarTarefas()
-
 }
 
 // DOM criado com Javascript

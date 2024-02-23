@@ -79,7 +79,7 @@ const updateConcluirTarefa = async(idUsuario, idTarefa) => {
         let sql = `update tbl_tarefas set concluido = true where id = ${idTarefa} and usuario_id = ${idUsuario}`
     
         // executa o scriptSQL no BD e recebe o retorno dos dados na variável rsTarefas
-        let rsTarefas = await prisma.$upRawUnsafe(sql)
+        let rsTarefas = await prisma.$queryRawUnsafe(sql)
         
         return rsTarefas
         
@@ -120,8 +120,6 @@ const updateTarefaById = async(idUsuario, idTarefa, tarefa) => {
                                         titulo = '${tarefa.titulo}',	    
                                         descricao = '${tarefa.descricao}'
                     where id = ${idTarefa} and usuario_id = ${idUsuario}`   
-
-                    console.log(sql)
 
         // executa o scriptSQL no BD e recebe o retorno dos dados na variável rsTarefas
         let rsTarefas = await prisma.$queryRawUnsafe(sql)

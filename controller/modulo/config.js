@@ -35,7 +35,7 @@ const ERROR_REQUIRED_FIELDS = {
 const ERROR_INTERNAL_SERVER_DB = {
     status: false,
     status_code: 500,
-    message: 'Ocorrem erros internos no servidor do banco de dados, por favor contate o administrador do sistema'
+    message: 'Ocorreram erros internos no servidor do banco de dados, por favor contate o administrador do sistema'
 }
 
 /******************************** Mensagens de Sucesso ********************************/

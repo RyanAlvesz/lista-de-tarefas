@@ -1,8 +1,6 @@
 'use strict'
 
-import { listarUsuarios } from './funcoes-api.js'
-import { pegarIdUsuario } from './funcoes-api.js'
-import { cadastrarUsuario } from './funcoes-api.js'
+import { listarUsuarios, pegarIdUsuario, cadastrarUsuario } from './funcoes-api.js'
 
 const olho = document.getElementById('olho')
 const inputSenha = document.getElementById('password')
@@ -31,33 +29,35 @@ const cadastrar = async() => {
     const senha = document.getElementById('password').value
     const nome = document.getElementById('name').value
 
+    let validacaoEmail, validacaoSenha, usuarioJSON = {}
+
     const usuarios = await listarUsuarios()
 
     if(email != '' && senha != '' && nome != '' && email.includes('@')){
 
         usuarios.usuarios.forEach(usuario => {
     
-            if(email == usuario.email){
+            if(email.toUpperCase() == usuario.email.toUpperCase()){
 
                 alert('Email já cadastrado')
                 
             } else {
 
-                let usuario = {
-                    nome: nome,
-                    email: email,
-                    senha: senha
-                }
-
-                cadastrarUsuario(usuario)
-                let id = pegarIdUsuario(email)
-
-                localStorage.setItem('usuarioId', id)   
-                window.location.href = './tarefas.html'
-
+                validacaoEmail = usuario.email
+                validacaoSenha = usuario.senha
+                
+                usuarioJSON.nome = nome
+                usuarioJSON.email = email
+                usuarioJSON.senha = senha
+                
             }
-    
+
         })
+
+        await cadastrarUsuario(usuarioJSON)
+        let id = await pegarIdUsuario(email)
+        localStorage.setItem('usuarioID', id.id)   
+        window.location.href = './tarefas.html'
 
     }
 
