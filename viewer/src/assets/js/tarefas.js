@@ -270,15 +270,6 @@ const criarTarefas = (arrayTarefas) => {
 
                 concluirTarefa(tarefa.id, idUsuario)
 
-                if (localStorage.getItem('concluido')) {
-
-                    concluido = localStorage.getItem('concluido')
-            
-                    if (concluido == 'true' ) {
-                        montarTarefas()
-                    }
-                }
-                
             } else {
                 
                 tituloTarefa.classList.remove('line-through')

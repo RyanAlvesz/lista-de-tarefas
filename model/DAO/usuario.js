@@ -67,8 +67,12 @@ const updateUser = async(usuario) => {
                                         email='${usuario.email}', 
                                         senha='${usuario.senha}' 
                                 where id=${usuario.id}`
-        let rsUsuarios = await prisma.$queryRawUnsafe(sql)
-        return rsUsuarios
+        let resultStatus = await prisma.$executeRawUnsafe(sql)
+        
+        if(resultStatus)
+            return true
+        else
+            return false
 
     } catch (error) {
         
@@ -92,7 +96,11 @@ const insertUser = async(usuario) => {
                                             )`
                  
         let resultStatus = await prisma.$executeRawUnsafe(sql)
-        return true
+        
+        if(resultStatus)
+            return true
+        else
+            return false
 
     } catch (error) {
         

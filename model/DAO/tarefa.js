@@ -79,9 +79,12 @@ const updateConcluirTarefa = async(idUsuario, idTarefa) => {
         let sql = `update tbl_tarefas set concluido = true where id = ${idTarefa} and usuario_id = ${idUsuario}`
     
         // executa o scriptSQL no BD e recebe o retorno dos dados na variável rsTarefas
-        let rsTarefas = await prisma.$queryRawUnsafe(sql)
+        let resultStatus = await prisma.$executeRawUnsafe(sql)
         
-        return rsTarefas
+        if(resultStatus)
+            return true
+        else
+            return false
         
     } catch (error) {
         
@@ -99,10 +102,13 @@ const updateTarefaNaoConcluida = async(idUsuario, idTarefa) => {
         let sql = `update tbl_tarefas set concluido = false where id = ${idTarefa} and usuario_id = ${idUsuario}`
     
         // executa o scriptSQL no BD e recebe o retorno dos dados na variável rsTarefas
-        let rsTarefas = await prisma.$queryRawUnsafe(sql)
+        let resultStatus = await prisma.$executeRawUnsafe(sql)
         
-        return rsTarefas
-        
+        if(resultStatus)
+            return true
+        else
+            return false        
+
     } catch (error) {
         
         return false
@@ -122,9 +128,12 @@ const updateTarefaById = async(idUsuario, idTarefa, tarefa) => {
                     where id = ${idTarefa} and usuario_id = ${idUsuario}`   
 
         // executa o scriptSQL no BD e recebe o retorno dos dados na variável rsTarefas
-        let rsTarefas = await prisma.$queryRawUnsafe(sql)
+        let resultStatus = await prisma.$executeRawUnsafe(sql)
         
-        return rsTarefas
+        if(resultStatus)
+            return true
+        else
+            return false
         
     } catch (error) {
         
@@ -142,9 +151,12 @@ const deleteTarefaById = async(idUsuario, idTarefa) => {
         let sql = `delete from tbl_tarefas where id = ${idTarefa} and usuario_id = ${idUsuario}`
 
         // executa o scriptSQL no BD e recebe o retorno dos dados na variável rsTarefas
-        let rsTarefas = await prisma.$queryRawUnsafe(sql)
+        let resultStatus = await prisma.$executeRawUnsafe(sql)
         
-        return rsTarefas
+        if(resultStatus)
+            return true
+        else
+            return false
         
     } catch (error) {
         
@@ -172,7 +184,10 @@ const insertTarefa = async(tarefa, idUsuario) => {
 
         let resultStatus = await prisma.$executeRawUnsafe(sql)
 
-        return true
+        if(resultStatus)
+            return true
+        else
+            return false
 
     } catch (error) {
         
