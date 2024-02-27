@@ -270,15 +270,25 @@ const criarTarefas = (arrayTarefas) => {
 
                 concluirTarefa(tarefa.id, idUsuario)
 
-            } else {
+                if (localStorage.getItem('concluido')) {
 
+                    concluido = localStorage.getItem('concluido')
+            
+                    if (concluido == 'true' ) {
+                        montarTarefas()
+                    }
+                }
+                
+            } else {
+                
                 tituloTarefa.classList.remove('line-through')
                 descricaoTarefa.classList.remove('line-through')
                 divTarefa.classList.remove('bg-azulclaro/60')
-
+                
                 tarefaNaoConcluida(tarefa.id, idUsuario)
 
             }
+
 
         })
 

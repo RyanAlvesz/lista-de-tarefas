@@ -19,7 +19,6 @@ const listarUsuarios = async() => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }  
@@ -43,7 +42,6 @@ const pegarIdUsuario = async(email) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }
@@ -67,7 +65,6 @@ const pegarUsuario = async(id) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     } 
@@ -97,7 +94,6 @@ const atualizarUsuario = async(usuario) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }  
@@ -126,7 +122,6 @@ const cadastrarUsuario = async(usuario) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }   
@@ -149,13 +144,13 @@ const tarefasUsuario = async(id) => {
                 'Content-Type': 'application/json'
             }
         }
+        
         const response = await fetch(url, options)
         const data = response.json()
         return data
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }
@@ -174,13 +169,13 @@ const tarefasUsuarioNaoConcluidas = async(id) => {
                 'Content-Type': 'application/json'
             }
         }
+        
         const response = await fetch(url, options)
         const data = response.json()
         return data
-        
+                
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }
@@ -204,7 +199,6 @@ const selecionarTarefa = async(idTarefa, idUsuario) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }
@@ -228,7 +222,6 @@ const concluirTarefa = async(idTarefa, idUsuario) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }  
@@ -252,7 +245,6 @@ const tarefaNaoConcluida = async(idTarefa, idUsuario) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }  
@@ -280,7 +272,6 @@ const atualizarTarefa = async(tarefa, idUsuario) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }  
@@ -304,7 +295,6 @@ const removerTarefa = async(idTarefa, idUsuario) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }
@@ -333,7 +323,6 @@ const criarTarefa = async(tarefa) => {
         
     } catch (error) {
 
-        console.log('ERRO')
         return false
         
     }   
